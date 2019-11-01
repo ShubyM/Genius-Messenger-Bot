@@ -5,15 +5,14 @@ from bs4 import BeautifulSoup
 from fbchat import log, Client
 from fbchat.models import *
 
-GENIUS = lyricsgenius.Genius("sSrEtcF9IWH5X_h6WEBRHny2tcEneYkSzCXUDGDkchQxcU1xbT4cPhZh8cp4QgmB")
+GENIUS = lyricsgenius.Genius("{KEY}")
 
+COOKIES = 'PUT COOKIES HERE'
 
-COOKIES = {'c_user': '100004418385553', 'datr': 'eE6mXTssnbjRG-8e7XtDQ6As', 'fr': '1woTObromiNOetvDF.AWVKc50ojLXde2VaRhBeWk2WPOk.Bdpk54.fR.AAA.0.0.Bdpk54.AWXKPZAy', 'noscript': '1', 'sb': 'eE6mXbsjpdJeg3vTCO8CR2cE', 'spin': 'r.1001296022_b.trunk_t.1571180156_s.1_v.2_', 'xs': '9%3AqUqwJg-gp5wh_A%3A2%3A1571180152%3A1737%3A2920'}
-
-THREAD_ID = '2131940626892478'
+THREAD_ID = 'THREAD ID'
 
 def main():
-    client = Facebook('shadownarutoex@gmail.com', 'manihatethissomuch', session_cookies = COOKIES)
+    client = Facebook('{USERNAME}', '{PASSWORD}', session_cookies = COOKIES)
     print(client.getSession())
     client.listen()
 
@@ -62,41 +61,7 @@ def getLyrics(query):
     else:
         return toReturn
 
-
-def getLyrics2(query):
-    ''' Making this bymyself cuz kevin a bitch'''
-    URL = 'https://api.genius.com/search'
-    TOKEN = "xNBeSpotSfbLaXuRiRMTNWIX6qOfuQ44gjoLYECiLBbIp17Bs749zjsr6kHFRrhI"
-
-    params = {
-        'q' : query,
-        'access_token' : TOKEN
-    }
-
-    search_results = requests.get(url = URL, params = params)
-    search_results = search_results.json()['response']
-    pageURL = search_results.get('hits')[0].get('result').get('url')
-
-    lyrics = scapreLyrics(pageURL)
-
-    if 'Chorus' in lyrics:
-        startChorus = lyrics.find('[Chorus')
-        endChorus = lyrics.find('[', startChorus + 6)
-
-    elif 'Verse' in lyrics:
-        startChorus = lyrics.find('Verse')
-        endChorus = lyrics.find('Verse', startChorus + 6)
-
-    else:
-        return lyrics[0: 281]
-
-    toReturn = lyrics[startChorus : endChorus]
-
-    if len(toReturn) > 281:
-        return toReturn[0: 281]
-
-    else:
-        return toReturn
+    
 
 def scapreLyrics(pageURL):
     page = requests.get(pageURL)
